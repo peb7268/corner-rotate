@@ -2,7 +2,11 @@ $('document').ready(function(){
     $('#servicesGrid li a').on('click', function(e){
         e.preventDefault();
         var selector    =  $(this).attr('href');
-        $(selector).addClass('active').fadeIn(100);
+        var height      =  $('body').outerHeight() + $('#grid-content').outerHeight();
+        $('#shade').height(height);
+        $(selector + ', #shade, #grid-content').fadeIn(100, function(){
+            $(selector).addClass('active');
+        }); 
     });
     
     $('a.close').on('click', function(e){
@@ -22,7 +26,6 @@ $('document').ready(function(){
             {
                 duration: 300,
                 step: function(now, fx) {
-                    console.log('step');
                     $(this).css("transform", "rotate(" + now +"deg)");
                     $(this).css("-webkit-transform", "rotate(" + now +"deg)");
                     $(this).css("-moz-transform", "rotate(" + now +"deg)");
@@ -30,7 +33,8 @@ $('document').ready(function(){
                 },
                 complete: function(){
                     $(this).removeAttr('class').removeAttr('style');
+                    $('#shade, #grid-content').fadeOut(100);
                 }
-              }, 'linear');            
+              }, 'swing');            
     }
 });
